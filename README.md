@@ -9,7 +9,7 @@
 ---
 
 ## 🌐 نسخه آنلاین
-👉 https://devartery.github.io/WireGuard/index.html
+👉 [WireGuard]([https://t.me/ownerArtery](https://devartery.github.io/WireGuard/index.html))
 
 ---
 
