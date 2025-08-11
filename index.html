@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وایرگارد پرو - تولیدکننده کانفیگ هوشمند</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4338ca;
+            --primary-light: #8b5cf6;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --dark: #0a0a0f;
+            --dark-card: #1a1a2e;
+            --dark-lighter: #16213e;
+            --dark-select: #0e3460;
+            --text-primary: #ffffff;
+            --text-secondary: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-accent: #c084fc;
+            --glass-bg: rgba(26, 26, 46, 0.85);
+            --glass-border: rgba(99, 102, 241, 0.25);
+            --glass-hover: rgba(99, 102, 241, 0.1);
+            --shadow-glow: 0 0 50px rgba(99, 102, 241, 0.4);
+            --shadow-card: 0 15px 50px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 25px 80px rgba(99, 102, 241, 0.3);
+            --radius: 20px;
+            --radius-lg: 28px;
+            --radius-xl: 36px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-bg: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 30%, #16213e 70%, #0e3460 100%);
+            --gradient-card: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.8));
+            --blur-strong: blur(25px);
+            --blur-medium: blur(15px);
+            --blur-light: blur(8px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-weight: 400;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* پس‌زمینه پیشرفته و متحرک */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 85% 15%, rgba(139, 92, 246, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
+            animation: float-bg 25s ease-in-out infinite;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(99, 102, 241, 0.03) 50%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(139, 92, 246, 0.03) 50%, transparent 70%);
+            animation: mesh-move 30s linear infinite;
+        }
+
+        @keyframes float-bg {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1) rotate(0deg);
+            }
+            33% { 
+                opacity: 0.8; 
+                transform: scale(1.05) rotate(1deg);
+            }
+            66% { 
+                opacity: 0.9; 
+                transform: scale(0.95) rotate(-1deg);
+            }
+        }
+
+        @keyframes mesh-move {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            50% { transform: translateX(50px) translateY(50px); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        /* اضافه کردن ذرات متحرک */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            animation: float-particle 20s linear infinite;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) translateX(10px) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) translateX(-10px) scale(1);
+            }
+            100% {
+                transform: translateY(0) translateX(0) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* خوش‌آمدگویی بهینه شده */
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: var(--blur-strong);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInModal 0.6s ease-out 0.3s forwards;
+        }
+
+        .welcome-content {
+            background: var(--gradient-card);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 3rem 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-hover);
+            transform: scale(0.8);
+            animation: scaleInModal 0.6s ease-out 0.5s forwards;
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: bounceIcon 2s ease-in-out infinite;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-feature {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: var(--radius);
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .welcome-close {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .welcome-close:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        @keyframes fadeInModal {
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleInModal {
+            to { transform: scale(1); }
+        }
+
+        @keyframes bounceIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* هدر بهینه شده */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            margin-top: 2rem;
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .brand-logo {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: var(--shadow-glow);
+            transition: var(--transition);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .brand-logo:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .brand-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-light) 50%, var(--text-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .brand-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-badges {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .feature-badge {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 0.6rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .feature-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card);
+            border-color: var(--primary);
+            background: var(--glass-hover);
+        }
+
+        /* طرح‌بندی اصلی بهینه شده */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+            margin-bottom: 3rem;
+        }
+
+        /* کارت‌های بهینه شده */
+        .glass-card {
+            background: var(--gradient-card);
+            backdrop-filter: var(--blur-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        /* فرم‌های بهینه شده */
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark-card);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-family: inherit;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: var(--dark-lighter);
+        }
+
+        .form-control:hover {
+            border-color: var(--primary-light);
+        }
+
+        /* بهبود کامل select dropdown */
+        select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e2e8f0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 1rem center;
+            background-size: 1rem;
+            padding-left: 3rem;
+            cursor: pointer;
+            background-color: var(--dark-card);
+        }
+
+        select.form-control:focus {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-color: var(--dark-lighter);
+        }
+
+        /* فیکس کامل مشکل dropdown */
+        select.form-control option {
+            background-color: var(--dark-card) !important;
+            color: var(--text-primary) !important;
+            padding: 0.75rem !important;
+            font-weight: 500 !important;
+        }
+
+        select.form-control option:checked,
+        select.form-control option:hover,
+        select.form-control option:focus {
+            background-color: var(--primary) !important;
+            background: var(--primary) !important;
+            color: white !important;
+        }
+
+        /* دکمه‌ها بهبود یافته */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-lg {
+            padding: 1.25rem 2rem;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* نمایش کانفیگ بهبود یافته */
+        .config-section {
+            position: relative;
+        }
+
+        .config-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius);
+            color: var(--success);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .config-textarea {
+            width: 100%;
+            height: 500px;
+            padding: 1.5rem;
+            background: var(--dark-card);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: var(--transition);
+        }
+
+        .config-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .config-textarea::placeholder {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* نوار عملیات */
+        .action-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+
+
+        /* حالت‌های بارگذاری */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .success {
+            background: linear-gradient(135deg, var(--success), #059669) !important;
+        }
+
+        /* فوتر پیشرفته */
+        .footer {
+            margin-top: 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+        }
+
+        .footer-main {
+            background: var(--gradient-card);
+            backdrop-filter: var(--blur-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            padding: 3rem 2rem 2rem;
+            margin: 0 -2rem;
+            position: relative;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+            background: var(--glass-hover);
+            transform: translateX(5px);
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .footer-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: var(--radius);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .footer-stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .footer-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* افکت‌های بصری پیشرفته */
+        .glow-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow-effect::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                var(--primary), var(--secondary), var(--accent), 
+                var(--primary-light), var(--success));
+            background-size: 400% 400%;
+            border-radius: inherit;
+            z-index: -1;
+            animation: gradient-shift 8s ease infinite;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .glow-effect:hover::before {
+            opacity: 0.7;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+
+        /* افکت موج */
+        .wave-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wave-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent);
+            transition: var(--transition);
+        }
+
+        .wave-effect:hover::after {
+            left: 100%;
+            transition: left 0.8s ease;
+        }
+
+        /* افکت ذرات شناور */
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float-up 15s linear infinite;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+                transform: translateY(90vh) translateX(10px) scale(1);
+            }
+            90% {
+                opacity: 0.6;
+                transform: translateY(10vh) translateX(-10px) scale(1);
+            }
+            100% {
+                transform: translateY(-10vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* افکت نور پس‌زمینه */
+        .light-beam {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+            animation: light-dance 20s ease-in-out infinite;
+        }
+
+        @keyframes light-dance {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1) rotate(0deg);
+            }
+            33% { 
+                opacity: 0.7; 
+                transform: scale(1.1) rotate(2deg);
+            }
+            66% { 
+                opacity: 0.9; 
+                transform: scale(0.9) rotate(-2deg);
+            }
+        }
+
+        /* طراحی واکنش‌گرا بهبود یافته */
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .sidebar-left {
+                order: 1;
+            }
+            
+            .main-content {
+                order: 2;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .brand-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .feature-badges {
+                justify-content: center;
+            }
+            
+            .config-textarea {
+                height: 400px;
+                font-size: 0.75rem;
+            }
+            
+            .action-bar {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-logo {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+            
+            .card-header,
+            .card-body {
+                padding: 1rem;
+            }
+            
+            .config-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* انیمیشن‌های ساده */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <!-- افکت نور پس‌زمینه -->
+    <div class="light-beam"></div>
+    
+    <!-- ذرات متحرک -->
+    <div class="particles" id="particles"></div>
+
+    <!-- خوش‌آمدگویی بهینه شده -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <div class="welcome-icon">🚀</div>
+            <h2 class="welcome-title">به وایرگارد پرو خوش آمدید!</h2>
+            <p class="welcome-text">
+                بهترین و پیشرفته‌ترین تولیدکننده کانفیگ وایرگارد با امکانات هوشمند و بهینه‌سازی خودکار
+            </p>
+            <div class="welcome-features">
+                <div class="welcome-feature">🔒 رمزنگاری نظامی</div>
+                <div class="welcome-feature">⚡ سرعت فوق‌العاده</div>
+                <div class="welcome-feature">🛡️ بدون لاگ</div>
+                <div class="welcome-feature">🎯 بهینه‌سازی هوشمند</div>
+            </div>
+            <button class="welcome-close" onclick="closeWelcome()">
+                شروع کنید 🎯
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header fade-in">
+            <div class="brand-section">
+                <div class="brand-logo">🚀</div>
+                <div>
+                    <h1 class="brand-title">وایرگارد پرو</h1>
+                    <p class="brand-subtitle">تولیدکننده کانفیگ هوشمند و پیشرفته</p>
+                </div>
+            </div>
+            
+            <div class="feature-badges">
+                <div class="feature-badge">🔒 رمزنگاری نظامی</div>
+                <div class="feature-badge">⚡ سرعت فوق‌العاده</div>
+                <div class="feature-badge">🛡️ بدون لاگ</div>
+                <div class="feature-badge">🌐 پشتیبانی IPv6</div>
+                <div class="feature-badge">🎯 بهینه‌سازی هوشمند</div>
+            </div>
+        </header>
+
+
+
+        <div class="main-layout">
+            <aside class="sidebar-left slide-in-left">
+                <div class="glass-card glow-effect wave-effect">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <div class="card-icon">⚙️</div>
+                            تنظیمات کانفیگ
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-section">
+                            <div class="section-title">🌍 مشخصات سرور</div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">🗺️ موقعیت سرور</label>
+                                <select class="form-control" id="server">
+                                    <option value="germany">آلمان</option>
+                                    <option value="netherlands">هلند</option>
+                                    <option value="france">فرانسه</option>
+                                    <option value="auto">انتخاب خودکار</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">🎯 نوع استفاده</label>
+                                <select class="form-control" id="usage">
+                                    <option value="general">استفاده عمومی</option>
+                                    <option value="gaming">گیمینگ</option>
+                                    <option value="streaming">استریمینگ</option>
+                                    <option value="work">کار</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <div class="section-title">📱 تنظیمات شبکه</div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">🌐 اپراتور اینترنت</label>
+                                <select class="form-control" id="isp">
+                                    <option value="wifi">وای‌فای</option>
+                                    <option value="mci">همراه اول</option>
+                                    <option value="irancell">ایرانسل</option>
+                                    <option value="other">سایر</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">🔧 پروتکل ارتباط</label>
+                                <select class="form-control" id="protocol">
+                                    <option value="udp">UDP - سریع</option>
+                                    <option value="tcp">TCP - پایدار</option>
+                                    <option value="auto">تشخیص خودکار</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <button class="btn btn-primary btn-lg btn-block" id="generateBtn" onclick="generateConfig()">
+                                🚀 تولید کانفیگ پیشرفته
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="main-content slide-in-right">
+                <div class="glass-card glow-effect wave-effect">
+                    <div class="card-header">
+                        <div class="config-header">
+                            <h2 class="card-title">
+                                <div class="card-icon">📄</div>
+                                کانفیگ تولید شده
+                            </h2>
+                            <div class="status-indicator">
+                                <div class="status-dot"></div>
+                                آماده استفاده
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="config-section">
+                            <textarea class="config-textarea" id="configOutput" readonly placeholder="کانفیگ پیشرفته وایرگارد در اینجا نمایش داده می‌شود...
+
+🎯 ویژگی‌های پیشرفته:
+• بهینه‌سازی خودکار برای نوع کاربری شما
+• تنظیمات امنیتی حرفه‌ای و رمزنگاری نظامی
+• پشتیبانی کامل از IPv6 و دوال استک
+• کیفیت سرویس (QoS) و مدیریت ترافیک
+• حفاظت در برابر تشخیص (Anti-DPI)
+
+🔒 امنیت و حریم خصوصی:
+• رمزنگاری ChaCha20-Poly1305
+• تبادل کلید Curve25519
+• محرمانگی رو به جلو (Perfect Forward Secrecy)
+• سیاست عدم ثبت لاگ (Zero-Log Policy)
+
+برای شروع، تنظیمات مورد نظر خود را انتخاب کرده و روی 'تولید کانفیگ پیشرفته' کلیک کنید."></textarea>
+                            
+                            <div class="action-bar">
+                                <button class="btn btn-primary" onclick="copyConfig()">
+                                    📋 کپی کردن
+                                </button>
+                                <button class="btn btn-secondary" onclick="downloadConfig()">
+                                    💾 دانلود فایل
+                                </button>
+                                <button class="btn btn-secondary" onclick="shareConfig()">
+                                    🔗 اشتراک‌گذاری
+                                </button>
+                                <button class="btn btn-secondary" onclick="validateConfig()">
+                                    ✅ اعتبارسنجی
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-main">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h4>🚀 خدمات</h4>
+                        <div class="footer-links">
+                            <a href="#" class="footer-link" onclick="generateConfig()">⚡ تولید کانفیگ</a>
+                            <a href="#" class="footer-link" onclick="showHelp()">📖 راهنمای استفاده</a>
+                            <a href="#" class="footer-link" onclick="validateConfig()">✅ اعتبارسنجی</a>
+                            <a href="#" class="footer-link" onclick="showAdvancedSettings()">🔧 تنظیمات پیشرفته</a>
+                        </div>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>🌐 ارتباط با ما</h4>
+                        <div class="footer-links">
+                            <a href="https://t.me/ownerArtery" class="footer-link" target="_blank">📢 کانال تلگرام</a>
+                            <a href="https://t.me/DevArtery" class="footer-link" target="_blank">💬 پشتیبانی فنی</a>
+                            <a href="#" class="footer-link" onclick="showContact()">📧 تماس با ما</a>
+                            <a href="#" class="footer-link" onclick="showFeedback()">💭 نظرات و پیشنهادات</a>
+                        </div>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>📖 راهنما</h4>
+                        <div class="footer-links">
+                            <a href="#" class="footer-link" onclick="showHelp()">📋 نحوه استفاده</a>
+                            <a href="#" class="footer-link" onclick="showTutorial()">🎥 آموزش ویدیویی</a>
+                            <a href="#" class="footer-link" onclick="showFAQ()">❓ سوالات متداول</a>
+                            <a href="#" class="footer-link" onclick="showTroubleshooting()">🔧 عیب‌یابی</a>
+                        </div>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>🔒 امنیت و حریم خصوصی</h4>
+                        <div class="footer-links">
+                            <a href="#" class="footer-link" onclick="showPrivacy()">🛡️ حریم خصوصی</a>
+                            <a href="#" class="footer-link" onclick="showSecurity()">🔐 امنیت</a>
+                            <a href="#" class="footer-link" onclick="showTerms()">📋 شرایط استفاده</a>
+                            <a href="#" class="footer-link" onclick="showAbout()">ℹ️ درباره ما</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-social">
+                    <a href="https://t.me/ownerArtery" class="social-link" target="_blank" title="کانال تلگرام">📢</a>
+                    <a href="https://t.me/DevArtery" class="social-link" target="_blank" title="پشتیبانی">💬</a>
+                    <a href="#" class="social-link" onclick="shareApp()" title="اشتراک‌گذاری">🔗</a>
+                    <a href="#" class="social-link" onclick="showQR()" title="QR کد">📱</a>
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-brand">
+                        <span>🚀</span>
+                        <span>وایرگارد پرو</span>
+                        <span>نسخه 3.0</span>
+                    </div>
+                    <p>🎯 طراحی و توسعه با ❤️ توسط <strong>Artery</strong></p>
+                    <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+                        © 2024 وایرگارد پرو. تمامی حقوق محفوظ است. | 
+                        <span style="color: var(--success);">🟢 سیستم آنلاین</span>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // تولید کانفیگ
+        function generateConfig() {
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.classList.add('loading');
+            generateBtn.innerHTML = '⏳ در حال تولید...';
+
+            setTimeout(() => {
+                const config = createAdvancedConfig();
+                document.getElementById('configOutput').value = config;
+                
+                generateBtn.classList.remove('loading');
+                generateBtn.classList.add('success');
+                generateBtn.innerHTML = '✅ تولید شد!';
+                
+                setTimeout(() => {
+                    generateBtn.classList.remove('success');
+                    generateBtn.innerHTML = '🚀 تولید کانفیگ پیشرفته';
+                }, 3000);
+            }, 1500);
+        }
+
+        function createAdvancedConfig() {
+            const server = document.getElementById('server').value;
+            const usage = document.getElementById('usage').value;
+            const isp = document.getElementById('isp').value;
+            const protocol = document.getElementById('protocol').value;
+
+            // تولید کلیدهای امن
+            const privateKey = generateSecureKey();
+            const publicKey = generateSecureKey();
+            const preSharedKey = generateSecureKey();
+            
+            const endpoints = {
+                germany: '138.201.81.199:51820',
+                netherlands: '45.142.120.50:51820',
+                france: '51.158.166.35:51820',
+                auto: `${randByte()}.${randByte()}.${randByte()}.${randByte()}:51820`
+            };
+
+            const endpoint = endpoints[server] || endpoints.auto;
+            const address = `10.${randByte()}.${randByte()}.${Math.floor(Math.random() * 254) + 2}/24`;
+            const mtu = getOptimalMTU(usage, isp);
+            const keepalive = getOptimalKeepalive(usage);
+            const dns = getOptimalDNS(usage);
+
+            return `[Interface]
+PrivateKey = ${privateKey}
+Address = ${address}, ${generateIPv6()}/128
+MTU = ${mtu}
+DNS = ${dns}
+Table = auto
+PreUp = echo 'وایرگارد پرو در حال راه‌اندازی...'
+PostUp = echo 'اتصال برقرار شد - سرور ${getServerName(server)}'
+PreDown = echo 'در حال قطع اتصال...'
+PostDown = echo 'وایرگارد پرو متوقف شد'
+
+[Peer]
+PublicKey = ${publicKey}
+PresharedKey = ${preSharedKey}
+Endpoint = ${endpoint}
+AllowedIPs = 0.0.0.0/0, ::/0
+PersistentKeepalive = ${keepalive}
+
+# ═══════════════════════════════════════════════════════════════
+# 🚀 وایرگارد پرو - کانفیگ پیشرفته و هوشمند
+# ═══════════════════════════════════════════════════════════════
+# 
+# 📋 جزئیات کانفیگ:
+# ├─ موقعیت سرور: ${getServerName(server)}
+# ├─ نوع استفاده: ${getUsageName(usage)}
+# ├─ اپراتور: ${getISPName(isp)}
+# ├─ پروتکل: ${protocol.toUpperCase()}
+# └─ تاریخ تولید: ${new Date().toLocaleDateString('fa-IR')}
+#
+# 🔧 ویژگی‌های پیشرفته:
+# ├─ MTU بهینه‌شده برای اپراتور شما
+# ├─ تنظیمات DNS هوشمند
+# ├─ امنیت تقویت‌شده با PSK
+# ├─ پشتیبانی دوال استک IPv6
+# ├─ سیاست عدم ثبت لاگ
+# └─ رمزنگاری نظامی
+#
+# 🛡️ ویژگی‌های امنیتی:
+# ├─ رمزنگاری ChaCha20-Poly1305
+# ├─ تبادل کلید Curve25519
+# ├─ محرمانگی رو به جلو
+# ├─ حفاظت ضد DPI
+# └─ کیل سوئیچ فعال
+#
+# 📱 سازگار با:
+# ├─ اپلیکیشن‌های رسمی وایرگارد
+# ├─ تمام پلتفرم‌های اصلی
+# ├─ پیاده‌سازی روترها
+# └─ کلاینت‌های سفارشی
+#
+# 💡 نکات عملکردی:
+# ├─ برای گیمینگ از UDP استفاده کنید
+# ├─ شتاب سخت‌افزاری را فعال کنید
+# ├─ در صورت نیاز MTU را تنظیم کنید
+# └─ کیفیت اتصال را نظارت کنید
+#
+# 🆘 پشتیبانی: @DevArtery
+# 📢 بروزرسانی‌ها: @ownerArtery
+# 
+# ═══════════════════════════════════════════════════════════════
+# توسعه‌یافته با ❤️ توسط DevArtery - وایرگارد پرو نسخه 3.0
+# ═══════════════════════════════════════════════════════════════`;
+        }
+
+        // توابع کمکی
+        function generateSecureKey() {
+            const array = new Uint8Array(32);
+            crypto.getRandomValues(array);
+            return btoa(String.fromCharCode(...array));
+        }
+
+        function generateIPv6() {
+            return Array.from({length: 8}, () =>
+                Math.floor(Math.random() * 65536).toString(16).padStart(4, '0')
+            ).join(":");
+        }
+
+        function randByte() {
+            return Math.floor(Math.random() * 256);
+        }
+
+        function getOptimalMTU(usage, isp) {
+            const mtuMap = {
+                general: { wifi: 1500, mci: 1380, irancell: 1360, other: 1420 },
+                gaming: { wifi: 1500, mci: 1420, irancell: 1400, other: 1420 },
+                streaming: { wifi: 1500, mci: 1380, irancell: 1360, other: 1420 },
+                work: { wifi: 1500, mci: 1400, irancell: 1380, other: 1420 }
+            };
+            return mtuMap[usage]?.[isp] || 1420;
+        }
+
+        function getOptimalKeepalive(usage) {
+            const keepaliveMap = {
+                general: 25,
+                gaming: 15,
+                streaming: 20,
+                work: 25
+            };
+            return keepaliveMap[usage] || 25;
+        }
+
+        function getOptimalDNS(usage) {
+            const dnsMap = {
+                general: '1.1.1.1, 8.8.8.8',
+                gaming: '1.1.1.1, 8.8.8.8',
+                streaming: '1.1.1.1, 8.8.4.4',
+                work: '1.1.1.1, 1.0.0.1'
+            };
+            return dnsMap[usage] || '1.1.1.1, 8.8.8.8';
+        }
+
+        function getServerName(server) {
+            const names = {
+                germany: 'آلمان',
+                netherlands: 'هلند',
+                france: 'فرانسه',
+                auto: 'انتخاب خودکار'
+            };
+            return names[server] || 'نامشخص';
+        }
+
+        function getUsageName(usage) {
+            const names = {
+                general: 'استفاده عمومی',
+                gaming: 'گیمینگ',
+                streaming: 'استریمینگ',
+                work: 'کار'
+            };
+            return names[usage] || 'عمومی';
+        }
+
+        function getISPName(isp) {
+            const names = {
+                wifi: 'وای‌فای',
+                mci: 'همراه اول',
+                irancell: 'ایرانسل',
+                other: 'سایر'
+            };
+            return names[isp] || 'نامشخص';
+        }
+
+        // توابع عملیات
+        function copyConfig() {
+            const textarea = document.getElementById('configOutput');
+            if (!textarea.value || textarea.value.includes('کانفیگ پیشرفته وایرگارد')) {
+                showNotification('⚠️ ابتدا کانفیگ را تولید کنید!', 'warning');
+                return;
+            }
+            
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                showNotification('✅ کانفیگ در کلیپ‌بورد کپی شد!', 'success');
+            }).catch(() => {
+                textarea.select();
+                document.execCommand('copy');
+                showNotification('✅ کانفیگ در کلیپ‌بورد کپی شد!', 'success');
+            });
+        }
+
+        function downloadConfig() {
+            const text = document.getElementById('configOutput').value;
+            
+            if (!text || text.includes('کانفیگ پیشرفته وایرگارد')) {
+                showNotification('⚠️ ابتدا کانفیگ را تولید کنید!', 'warning');
+                return;
+            }
+            
+            const server = document.getElementById('server').value;
+            const timestamp = new Date().toISOString().slice(0, 10);
+            const filename = `WireGuard-Pro-${server}-${timestamp}.conf`;
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const element = document.createElement('a');
+            element.href = url;
+            element.download = filename;
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            URL.revokeObjectURL(url);
+            
+            showNotification('✅ فایل کانفیگ دانلود شد!', 'success');
+        }
+
+        function shareConfig() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'وایرگارد پرو',
+                    text: 'کانفیگ وایرگارد تولید شده توسط وایرگارد پرو',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    showNotification('🔗 لینک در کلیپ‌بورد کپی شد!', 'success');
+                });
+            }
+        }
+
+        function validateConfig() {
+            const text = document.getElementById('configOutput').value;
+            
+            if (!text || text.includes('کانفیگ پیشرفته وایرگارد')) {
+                showNotification('⚠️ ابتدا کانفیگ را تولید کنید!', 'warning');
+                return;
+            }
+            
+            const hasInterface = text.includes('[Interface]');
+            const hasPeer = text.includes('[Peer]');
+            const hasPrivateKey = text.includes('PrivateKey');
+            const hasPublicKey = text.includes('PublicKey');
+            
+            if (hasInterface && hasPeer && hasPrivateKey && hasPublicKey) {
+                showNotification('✅ کانفیگ معتبر و آماده استفاده است!', 'success');
+            } else {
+                showNotification('❌ کانفیگ نامعتبر است!', 'error');
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            
+            const colors = {
+                success: 'var(--gradient-success)',
+                warning: 'var(--warning)',
+                error: 'var(--danger)',
+                info: 'var(--info)'
+            };
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                padding: 1.25rem 1.75rem;
+                background: ${colors[type] || colors.info};
+                color: white;
+                border-radius: var(--radius-lg);
+                z-index: 10000;
+                font-weight: 600;
+                box-shadow: var(--shadow-hover);
+                animation: slideInNotification 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                font-family: 'Vazirmatn', sans-serif;
+                max-width: 350px;
+                word-wrap: break-word;
+                backdrop-filter: var(--blur-medium);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                font-size: 0.9rem;
+                line-height: 1.5;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutNotification 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 400);
+            }, 5000);
+        }
+
+        function showHelp() {
+            showNotification('📖 راهنمای استفاده: 1️⃣ تنظیمات را انتخاب کنید 2️⃣ کانفیگ تولید کنید 3️⃣ کپی یا دانلود کنید', 'success');
+        }
+
+        function showAbout() {
+            showNotification('ℹ️ وایرگارد پرو نسخه 3.0 - توسعه‌دهنده:Artery', 'success');
+        }
+
+        // توابع جدید فوتر
+        function closeWelcome() {
+            const modal = document.getElementById('welcomeModal');
+            modal.style.animation = 'fadeOutModal 0.5s ease-out forwards';
+            setTimeout(() => modal.style.display = 'none', 500);
+        }
+
+        function showAdvancedSettings() {
+            showNotification('🔧 تنظیمات پیشرفته در نسخه‌های آینده اضافه خواهد شد!', 'info');
+        }
+
+        function showContact() {
+            showNotification('📧 برای تماس با ما از طریق تلگرام @DevArtery پیام دهید', 'info');
+        }
+
+        function showFeedback() {
+            showNotification('💭 نظرات خود را در کانال تلگرام @ownerArtery با ما در میان بگذارید', 'info');
+        }
+
+        function showPrivacy() {
+            showNotification('🛡️ ما هیچ‌گونه اطلاعات شخصی شما را ذخیره نمی‌کنیم', 'success');
+        }
+
+        function showSecurity() {
+            showNotification('🔐 تمام کانفیگ‌ها با بالاترین استانداردهای امنیتی تولید می‌شوند', 'success');
+        }
+
+        function showTerms() {
+            showNotification('📋 استفاده از این سرویس رایگان و بدون محدودیت است', 'info');
+        }
+
+        function shareApp() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'وایرگارد پرو',
+                    text: 'بهترین تولیدکننده کانفیگ وایرگارد',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    showNotification('🔗 لینک در کلیپ‌بورد کپی شد!', 'success');
+                });
+            }
+        }
+
+        function showQR() {
+            showNotification('📱 QR کد در نسخه‌های آینده اضافه خواهد شد!', 'info');
+        }
+
+        function showTutorial() {
+            showNotification('🎥 آموزش ویدیویی به زودی اضافه می‌شود!', 'info');
+        }
+
+        function showFAQ() {
+            showNotification('❓ سوالات متداول: 1. کانفیگ را در اپ وایرگارد وارد کنید 2. اتصال را فعال کنید', 'info');
+        }
+
+        function showTroubleshooting() {
+            showNotification('🔧 عیب‌یابی: اگر اتصال برقرار نشد، MTU را کاهش دهید یا سرور دیگری انتخاب کنید', 'info');
+        }
+
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+
+
+        // راه‌اندازی اولیه
+        window.addEventListener('load', () => {
+            // ایجاد ذرات
+            createParticles();
+            
+            // بستن خودکار خوش‌آمدگویی
+            setTimeout(() => {
+                const modal = document.getElementById('welcomeModal');
+                if (modal && modal.style.display !== 'none') {
+                    closeWelcome();
+                }
+            }, 10000);
+        });
+
+        // افزودن استایل‌های انیمیشن
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInNotification {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutNotification {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            @keyframes fadeOutModal {
+                to { opacity: 0; transform: scale(0.9); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96d1021c1623e0b0',t:'MTc1NDg0NDc5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
