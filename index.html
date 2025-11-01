@@ -1343,11 +1343,6 @@ PrivateKey = ${privateKey}
 Address = ${address}, ${generateIPv6()}/128
 MTU = ${mtu}
 DNS = ${dns}
-Table = auto
-PreUp = echo 'وایرگارد پرو در حال راه‌اندازی...'
-PostUp = echo 'اتصال برقرار شد - سرور ${getServerName(server)}'
-PreDown = echo 'در حال قطع اتصال...'
-PostDown = echo 'وایرگارد پرو متوقف شد'
 
 [Peer]
 PublicKey = ${publicKey}
